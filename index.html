@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        body {
+            background-color: #404040;
+            font-family: 'Roboto';
+            color: #FFFFFF;
+        }
+
+        h2 {
+            font-family: 'Roboto';
+            color: #FFFFFF;
+        }
+
+        img {
+            height: 1em;
+            width: 1em;
+        }
+
+        canvas {
+            display: 'block';
+            float: left;
+            border-right: 2px solid #303030;
+        }
+
+        .weaponslist {
+            margin-left: 6px;
+            float: left;
+            height: 700px;
+            width: 480px;
+            overflow-y: auto;
+        }
+
+        .listcontainer {
+            margin-left: 15px;
+        }
+
+        .weaponcontainer {
+            display: inline-block;
+            margin-left: 1em;
+            float: left;
+        }
+
+        .color-box {
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            background-color: #ccc;
+            left: 5px;
+            top: 5px;
+            float: left;
+            -webkit-box-shadow: 0 0 5px black;
+            -moz-box-shadow: 0 0 5px black;
+            box-shadow: 0 0 5px black;
+        }
+
+        .dataInput {
+            font-family: 'Roboto';
+            margin-left: 15px;
+            color: #FFFFFF;
+        }
+
+        .containChart {
+            max-width: 1000px;
+            max-height: 700px;
+        }
+
+        .advcolumn {
+            width: 230px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="containChart">
+        <canvas id="myChart" width="1000" height="700"></canvas>
+    </div>
+
+    <script type="text/javascript" src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./script.js"></script>
+
+    <div class="weaponslist" id="weaponslist">
+        <h2>Current Weapons</h2>
+        <div class="listcontainer" id="listcontainer">
+        </div>
+        <div style="clear:both;"></div>
+        <div class="weaponremover">
+            Remove:
+            <select id="weprmselector" style="width: 200px">
+            </select>
+            <button id="removebutton" onclick="removeWeapon()" disabled>Remove</button>
+        </div>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <h2>Add Weapon</h2>
+    <div class="dataInput">
+        Weapon Presets:
+        <select id="weaponPresets" onchange="setBoxes(this)">
+            <option disabled>&#9472; Spells &#9472;</option>
+            <option value="T0Spell">Destruction Spell (T0 Spell)</option>
+            <option value="T1Spell">Neo Burst Spell (T1 Spell)</option>
+            <option value="T2Spell">Fire Blast Spell (T2 Spell)</option>
+            <option value="T3Spell">Void Spell (T3 Spell)</option>
+            <option value="T4Spell">Detonation Spell (T4 Spell)</option>
+            <option value="T5Spell">Elemental Spell (T5 Spell)</option>
+            <option value="T6Spell">Fire Nova Spell (T6 Spell)</option>
+            <option value="T7Spell">Astral Burst Spell (T7 Spell)</option>
+            <option value="T8Spell">Tablet of Eternal Flame (T8 Spell)</option>
+            <option value="T9Spell">Tablet of the Sun (T9 Spell)</option>
+            <option value="T10Spell">Tablet of Mysterious Energy (T10 Spell)</option>
+            <option value="T11Spell">Tablet of Pure Destruction (T11 Spell)</option>
+            <option value="ASTSpell">Ancient Stone Tablet (UT Spell)</option>
+            <option value="SantaSpell">Santa's List (UT Spell)</option>
+            <option disabled>&#9472; Axes &#9472;</option>
+            <option value="T0Axe">Rusty Axe (T0 Axe)</option>
+            <option value="T1Axe">Iron Axe (T1 Axe)</option>
+            <option value="T2Axe">Gilded Axe (T2 Axe)</option>
+            <option value="T3Axe">Steel Axe (T3 Axe)</option>
+            <option value="T4Axe">Refined Axe (T4 Axe)</option>
+            <option value="T5Axe">Bluesteel Axe (T5 Axe)</option>
+            <option value="T6Axe">Golden Axe (T6 Axe)</option>
+            <option value="T7Axe">Bloodrazor (T7 Axe)</option>
+            <option value="T8Axe">Mithril Battleaxe (T8 Axe)</option>
+            <option value="T9Axe">Great Battleaxe (T9 Axe)</option>
+            <option value="T10Axe">Emerald Battleaxe (T10 Axe)</option>
+            <option value="GSlayerAxe">Giant Slayer Axe (UT Axe)</option>
+            <option value="JowlAxe">Demon Jowl Axe (UT Axe)</option>
+            <option disabled>&#9472; Bows &#9472;</option>
+            <option value="T0Bow">Wood Bow (T0 Bow)</option>
+            <option value="T1Bow">Graywood Bow (T1 Bow)</option>
+            <option value="T2Bow">Reinforced Bow (T2 Bow)</option>
+            <option value="T3Bow">Iron Bow (T3 Bow)</option>
+            <option value="T4Bow">Long Bow (T4 Bow)</option>
+            <option value="T5Bow">Yew Bow (T5 Bow)</option>
+            <option value="T6Bow">Brownheart Bow (T6 Bow)</option>
+            <option value="T7Bow">Blackwood Bow (T7 Bow)</option>
+            <option value="T8Bow">Blood Bow (T8 Bow)</option>
+            <option value="T9Bow">Bow of the Morning Sun (T9 Bow)</option>
+            <option value="T10Bow">Bow of Enlightenment (T10 Bow)</option>
+            <option value="T11Bow">Bow of Exalted Magic (T11 Bow)</option>
+            <option value="OminBow">Ominous Bow (UT Bow)</option>
+            <option value="BoneBow">Bow of Cadaverous Greed (UT Bow)</option>
+            <option value="PumpkinBow">Bow of the Scarborough Hunt (UT Bow)</option>
+            <option disabled>&#9472; Daggers &#9472;</option>
+            <option value="T0Dagger">Standard Dagger (T0 Dagger)</option>
+            <option value="T1Dagger">Thief's Dagger (T1 Dagger)</option>
+            <option value="T2Dagger">Rose Thorn Dagger (T2 Dagger)</option>
+            <option value="T3Dagger">Iced Dagger (T3 Dagger)</option>
+            <option value="T4Dagger">Golden Dagger (T4 Dagger)</option>
+            <option value="T5Dagger">Jeweled Dagger (T5 Dagger)</option>
+            <option value="T6Dagger">Silver Dagger (T6 Dagger)</option>
+            <option value="T7Dagger">Quicksilver Dagger (T7 Dagger)</option>
+            <option value="T8Dagger">Insidious Dagger (T8 Dagger)</option>
+            <option value="T9Dagger">Rageblade Dagger (T9 Dagger)</option>
+            <option value="T10Dagger">Dagger of Treacherous Whispers (T10 Dagger)</option>
+            <option value="ElkenDagger">Elkendire Dagger (UT Dagger)</option>
+            <option disabled>&#9472;</option>
+        </select>
+        <br/><br/> Weapon Name: <input type="text" style="width: 300px" id="weaponname" value="Destruction Spell"></input>
+        Tier: <input type="number" min="-1" style="width: 40px" id="weptier" value="0"></input>
+        Color: <input type="color" id="linecolor" value="#000000"></input>
+        <br/> Min. Damage: <input type="number" min="0" style="width: 60px" id="mindamage" value="30"></input>
+        Max Damage: <input type="number" min="0" style="width: 60px" id="maxdamage" value="50"></input>
+        Shots: <input type="number" min="1" style="width: 35px" id="shotcount" value="1"></input>
+        Fire Rate (%): <input type="number" min="1" style="width: 50px" id="fireratepercent" value="100"></input>
+        <br/> Att: <input type="number" min="1" style="width: 40px" id="attvalue" value="60"></input>
+        Dex: <input type="number" min="1" style="width: 40px" id="dexvalue" value="50"></input>
+        <br/><br/>
+        <label><input type='checkbox' id="advtoggle" onclick='advOptionsToggle(this);'>Other Options...</label>
+        <div id="advoptions" class="advoptions" style="display: none">
+            <br/>
+            <div class="advcolumn">
+                <label><input type='checkbox' id="empoweredmod">Empowered <img src="./images/empoweredicon.png"></label><br/>
+                <label><input type='checkbox' id="furymod">Fury <img src="./images/furyicon.png"></label><br/>
+                <label><input type='checkbox' id="armpiercemod">Armor Piercing</label><br/>
+            </div>
+            <div class="advcolumn">
+                <label><input type='checkbox' id="weakenedmod">Weakened <img src="./images/weakenedicon.png"></label><br/>
+                <label><input type='checkbox' id="dazedmod">Dazed (dex = 0)</label><br/>
+                <br/>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <br/>
+        <button onclick="applyInputs()">Add Weapon...</button>
+        <script>applyInputs()</script>
+    </div>
+</body>
+
+</html>
