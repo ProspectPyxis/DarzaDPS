@@ -251,23 +251,23 @@ function setBoxes(selector) {
             name: "Emerald Battleaxe",
             tier: 10,
             dmgmin: 210,
-            dmgmax: 305,
+            dmgmax: 310,
             shots: 1,
             firerate: 100
         },
         GSlayerAxe: {
             name: "Giant Slayer Axe",
             tier: -1,
-            dmgmin: 480,
+            dmgmin: 600,
             dmgmax: 700,
             shots: 1,
-            firerate: 35
+            firerate: 33
         },
         JowlAxe: {
             name: "Demon Jowl Axe",
             tier: -1,
-            dmgmin: 65,
-            dmgmax: 120,
+            dmgmin: 70,
+            dmgmax: 130,
             shots: 3,
             firerate: 125
         },
@@ -371,10 +371,10 @@ function setBoxes(selector) {
         OminBow: {
             name: "Ominous Bow",
             tier: -1,
-            dmgmin: 55,
-            dmgmax: 85,
+            dmgmin: 60,
+            dmgmax: 70,
             shots: 2,
-            firerate: 150
+            firerate: 165
         },
         BoneBow: {
             name: "Bow of Cadaverous Greed",
@@ -720,40 +720,23 @@ for (var i = 0; i <= 150; i++) {
 
 // Graph Data
 
+var weaponsarray = [];
+var enemyarray = [{
+
+}]
+
 var tdata = {
     labels: armarray,
     datasets: []
 };
 
-// Another array for storing damage values
-// var damagearray = [];
-
-var ctx = document.getElementById('myChart');
-
-let draw = Chart.controllers.line.prototype.draw;
-Chart.controllers.line = Chart.controllers.line.extend({
-    draw: function() {
-        draw.apply(this, arguments);
-        let ctx = this.chart.chart.ctx;
-        let _stroke = ctx.stroke;
-        ctx.stroke = function() {
-            ctx.save();
-            ctx.shadowColor = '#000';
-            ctx.shadowBlur = 10;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            _stroke.apply(this, arguments)
-            ctx.restore();
-        }
-    }
-});
-
-dpsChart = new Chart(ctx, {
+var cconf = {
     type: 'line',
     data: tdata,
     options: {
         scales: {
             xAxes: [{
+                id: 'xAxis1',
                 gridLines: {
                     drawOnChartArea: false,
                     color: "#C1C1C1"
@@ -771,6 +754,7 @@ dpsChart = new Chart(ctx, {
                 }
             }],
             yAxes: [{
+                id: 'yaxis1',
                 gridLines: {
                     color: "#C1C1C1"
                 },
@@ -800,4 +784,29 @@ dpsChart = new Chart(ctx, {
         },
         responsive: false
     }
+};
+
+// Another array for storing damage values
+// var damagearray = [];
+
+var ctx = document.getElementById('myChart');
+
+let draw = Chart.controllers.line.prototype.draw;
+Chart.controllers.line = Chart.controllers.line.extend({
+    draw: function() {
+        draw.apply(this, arguments);
+        let ctx = this.chart.chart.ctx;
+        let _stroke = ctx.stroke;
+        ctx.stroke = function() {
+            ctx.save();
+            ctx.shadowColor = '#000';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            _stroke.apply(this, arguments)
+            ctx.restore();
+        }
+    }
 });
+
+dpsChart = new Chart(ctx, cconf);
